@@ -6,11 +6,31 @@ $(function () {
         },
 
         setUpListeners: function () {
+            this.filterDownMenu()
             this.instructionScroll();
             this.faqPopup();
             this.tabs();
             this.cartCountSelect();
             this.menuScroll();
+            this.uploader();
+        },
+
+        filterDownMenu: function () {
+            $('.filter-menu > li a.yes-drop').on("click", function (e) {
+                $('.filter-menu > li.active').removeClass('active');
+                $('.yes-drop').siblings('ul.drop').removeAttr('style');
+
+
+                $(this).parent('li').toggleClass('active');
+                $(this).siblings('ul.drop').stop().slideDown(500, function () {
+
+                    $(this).find('ul.drop').removeAttr('style');
+                });
+            });
+
+            if ($('.filter-menu > li').hasClass('active')) {
+                $('.filter-menu > li.active').find('ul.drop').css('display', 'block');
+            }
         },
 
         instructionScroll: function () {
@@ -149,7 +169,35 @@ $(function () {
                 });
 
             });
+        },
 
+        uploader: function () {
+            /******************* File uploader *******************/
+            $('#fileupload').fileupload({
+                dataType: 'json',
+                done: function (e, data) {
+                    $.each(data.result.files, function (index, file) {
+                        $('<p/>').text(file.name).appendTo(document.body);
+                    });
+                },
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                    );
+                    $('#progress .progress-bar').text(progress + '%');
+                },
+                success: function (response) {
+                    jsonData = response;
+                    if (jsonData.status == 0) {
+                        alert('oopps');
+                    }
+                    if (jsonData.status == 1) {
+                        $("#hiddenNameDocFeedBack").val(jsonData.fname);
+                    }
+                }
+            }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
         },
     }
     app.initialize();
