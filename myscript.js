@@ -7,7 +7,7 @@ $(function(){
 		
 		setUpListeners: function(){	
 			this.instructionScroll();
-			this.faqPopup();
+            this.faqPopup();
             this.tabs();
             this.cartCountSelect();
             this.menuScroll();
