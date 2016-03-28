@@ -110,7 +110,7 @@ $(function(){
 				return false;
 			});
             
-            /******************* Left menu pagination page *******************/
+            /******************* Left menu pagination page ******************/
             $(document).scroll(function() {
                 var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
             
