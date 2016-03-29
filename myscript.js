@@ -12,7 +12,6 @@ $(function () {
             this.tabs();
             this.cartCountSelect();
             this.menuScroll();
-            this.uploader();
         },
 
         filterDownMenu: function () {
@@ -169,36 +168,7 @@ $(function () {
                 });
 
             });
-        },
-
-        uploader: function () {
-            /******************* File uploader *******************/
-            $('#fileupload').fileupload({
-                dataType: 'json',
-                done: function (e, data) {
-                    $.each(data.result.files, function (index, file) {
-                        $('<p/>').text(file.name).appendTo(document.body);
-                    });
-                },
-                progressall: function (e, data) {
-                    var progress = parseInt(data.loaded / data.total * 100, 10);
-                    $('#progress .progress-bar').css(
-                        'width',
-                        progress + '%'
-                    );
-                    $('#progress .progress-bar').text(progress + '%');
-                },
-                success: function (response) {
-                    jsonData = response;
-                    if (jsonData.status == 0) {
-                        alert('oopps');
-                    }
-                    if (jsonData.status == 1) {
-                        $("#hiddenNameDocFeedBack").val(jsonData.fname);
-                    }
-                }
-            }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
-        },
+        },        
     }
     app.initialize();
 });
